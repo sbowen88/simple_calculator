@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "./Homepage.css";
+const math = require('mathjs');
 
 class Homepage extends Component {
     constructor(props) {
@@ -12,24 +13,31 @@ class Homepage extends Component {
     handleClear() {
         this.setState({ numbers: [] });
         console.log('cleared')
-
     }
     handleClick(value) {
         let stuff = this.state.numbers.concat(value)
         this.setState({ numbers: stuff })
         console.log('number added', value, this.state.numbers)
     }
+    handleInput(value){
+        let stuff = this.state.numbers.concat(value)
+        this.setState({numbers: stuff})
+    }
+    doMath(){
+       this.setState({numbers: math.eval(this.state.numbers.toString())});
+    }
 
     render() {
         return (
             <div className="homepage_container">
+            <h1>Calculator</h1>
                 <div className="calculator_container">
-                    <div className="magic_box">{this.state.numbers}</div>
+                    <input className="magic_box"  maxlength = "5" onChange = {(e)=>this.handleInput(e.target.value)} value = {this.state.numbers}/>
                     <div className="buttons_container">
                         <div className="row">
                             <button onClick={() => this.handleClear()} label="C" value="clear" >C</button>
                             <button onClick={() => this.handleClick("/")} label="/" value="/" >/</button>
-                            <button onClick={() => this.handleClick("=")} label="=" value="=" >=</button>
+                            <button onClick={() => this.doMath()} label="=" value="=" >=</button>
                         </div>
                         <div className="row">
                             <button onClick={() => this.handleClick(7)} label="7" value="7" >7</button>
